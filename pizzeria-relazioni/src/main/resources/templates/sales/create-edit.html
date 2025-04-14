@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <div th:replace="~{fragments/style :: headTags}"></div>
+    <title>New sale</title>
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+    <div th:replace="~{fragments/header :: header('Add a new sale')}"></div>
+    
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <main class="container flex-grow-1">
+        <div class="row">
+            <div class="col-8">
+                <form id="pizza-form" th:action="@{/pizzas/create}" method="post" th:object="${pizza}">
+                    
+
+
+                    <!-- bottoni di invio o reset -->
+                    <div class="mb-3 d-flex justify-content-between">
+                        <input type="submit" class="btn back-basil cheese" value="Add pizza">
+                        <input type="reset" class="btn btn-warning" value="Reset form">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <div th:replace="~{fragments/style :: scripts}"></div>
+</body>
+
+</html>

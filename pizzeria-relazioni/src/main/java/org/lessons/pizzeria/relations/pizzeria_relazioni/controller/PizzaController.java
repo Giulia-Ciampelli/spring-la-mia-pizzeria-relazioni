@@ -2,6 +2,7 @@ package org.lessons.pizzeria.relations.pizzeria_relazioni.controller;
 
 import java.util.List;
 
+import org.lessons.pizzeria.relations.pizzeria_relazioni.model.OnSale;
 import org.lessons.pizzeria.relations.pizzeria_relazioni.model.Pizza;
 import org.lessons.pizzeria.relations.pizzeria_relazioni.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,6 +97,15 @@ public class PizzaController {
     public String delete(@PathVariable int id) {
         repository.deleteById(id);
         return "redirect:/pizzas";
+    }
+    
+    // metodo delle offerte
+    @GetMapping("/{id}/sale")
+    public String onSale(@PathVariable int id, Model model) {
+        OnSale sale = new OnSale();
+        sale.setPizza(repository.findById(id).get());
+        model.addAttribute("sale", sale);
+        return "sales/create-edit";
     }
     
 }

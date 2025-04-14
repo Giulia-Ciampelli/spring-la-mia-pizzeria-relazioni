@@ -39,7 +39,7 @@ public class Pizza {
     @Min(value = 0, message = "price cannot be negative")
     private float price;
 
-    // RICORDA: metti fetchType eager prime per evitare di sclerare di nuovo
+    // RICORDA: metti fetchType eager prima per evitare di sclerare di nuovo
     @OneToMany(mappedBy = "pizza", fetch = FetchType.EAGER)
     private List<OnSale> sales;
 

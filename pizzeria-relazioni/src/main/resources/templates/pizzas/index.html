@@ -55,6 +55,10 @@
                             Edit
                         </a>
 
+                        <a th:href="@{/pizzas/{id}/sale(id=${pizza.id})}" class="btn back-basil cheese">
+                            On sale
+                        </a>
+
                         <!-- bottone con modale -->
                         <button type="button" class="btn btn-danger" data-bs-toggle="modal"
                             th:data-bs-target="'#delete-modal-' + ${pizza.id}">
