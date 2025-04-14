@@ -22,6 +22,27 @@
                 <p class="card-text my-3">
                     <strong>Price: </strong>[[*{price}]]€
                 </p>
+                <div class="card align-items-center px-4 mb-3 back-basil" th:object="${sale}">
+                    <p class="card-title fw-bold fs-3 text-decoration-none">
+                        Active sales:
+                    </p>
+                    <div th:each="sale : ${sales}">
+                        <p class="card-text my-3">
+                            <strong>Title: </strong>[[${sale.title}]]
+                        </p>
+                        <p class="card-text my-3">
+                            <strong>Start date: </strong>[[${sale.startDate}]]
+                        </p>
+                        <p class="card-text my-3">
+                            <strong>Finish date: </strong>[[${sale.finishDate}]]
+                        </p>
+                        <div class="mb-3">
+                            <a th:href="@{/sales/edit/{id}(id=${sale.id})}" class="btn back-sauce cheese">
+                                Update
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
