@@ -43,8 +43,9 @@ public class OnSaleController {
     @PostMapping("/edit/{id}")
     public String update(@Valid @ModelAttribute("sale") OnSale formSale, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            return "sales/create-eidt";
-        }        
-        return "redirect:/pizzas" + formSale.getPizza().getId();
+            return "sales/create-edit";
+        }
+        repository.save(formSale);
+        return "redirect:/pizzas/" + formSale.getPizza().getId();
     }
 }
