@@ -3,18 +3,18 @@
 
 <head>
     <div th:replace="~{fragments/style :: headTags}"></div>
-    <title>Edit [[${pizza.name}]]</title>
+    <title th:text="${edit} ? 'Edit ' + ${pizza.name} : 'New pizza'"></title>
 </head>
 
 <body class="d-flex flex-column min-vh-100">
-    <div th:replace="~{fragments/header :: header('Edit ' + ${pizza.name})}"></div>
+    <div th:replace="~{fragments/header :: header(${edit} ? 'Edit ' + ${pizza.name} : 'Add a new pizza')}"></div>
     
     <div th:replace="~{fragments/navbar :: navbar}"></div>
 
     <main class="container flex-grow-1">
         <div class="row">
             <div class="col-8">
-                <form id="pizza-form" th:action="@{/pizzas/edit/{id}(id=${pizza.id})}" method="post" th:object="${pizza}">
+                <form id="pizza-form" th:action="${edit} ? @{/pizzas/edit/{id}(id=${pizza.id})} : @{/pizzas/create}" method="post" th:object="${pizza}">
                     
                     <!-- nome -->
                     <div class="mb-3">
@@ -78,7 +78,7 @@
 
                     <!-- bottoni di invio o reset -->
                     <div class="mb-3 d-flex justify-content-between">
-                        <input type="submit" class="btn back-basil cheese" value="Edit pizza">
+                        <input type="submit" class="btn back-basil cheese" value="Save">
                         <input type="reset" class="btn btn-warning" value="Reset form">
                     </div>
                 </form>
