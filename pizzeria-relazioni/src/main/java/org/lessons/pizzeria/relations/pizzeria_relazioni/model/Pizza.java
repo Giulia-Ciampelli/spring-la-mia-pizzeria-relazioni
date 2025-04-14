@@ -1,22 +1,19 @@
 package org.lessons.pizzeria.relations.pizzeria_relazioni.model;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-
-// Una pizza avrà le seguenti informazioni:
-// un id
-// un nome
-// una descrizione
-// una foto (url)
-// un prezzo
 
 @Entity
 @Table(name = "pizzas")
@@ -42,6 +39,10 @@ public class Pizza {
     @Min(value = 0, message = "price cannot be negative")
     private float price;
 
+    // RICORDA: metti fetchType eager prime per evitare di sclerare di nuovo
+    @OneToMany(mappedBy = "pizza", fetch = FetchType.EAGER)
+    private List<OnSale> sales;
+
     //#region getter e setter
     public int getId() {
         return id;
@@ -63,6 +64,10 @@ public class Pizza {
         return price;
     }
 
+    public List<OnSale> getSales() {
+        return sales;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -81,6 +86,10 @@ public class Pizza {
 
     public void setPrice(float price) {
         this.price = price;
+    }
+
+    public void setSales(List<OnSale> sales) {
+        this.sales = sales;
     }
 
     //#endregion getter e setter
