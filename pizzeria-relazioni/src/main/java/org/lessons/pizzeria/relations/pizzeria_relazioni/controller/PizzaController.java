@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.lessons.pizzeria.relations.pizzeria_relazioni.model.OnSale;
 import org.lessons.pizzeria.relations.pizzeria_relazioni.model.Pizza;
+import org.lessons.pizzeria.relations.pizzeria_relazioni.repository.OnSaleRepository;
 import org.lessons.pizzeria.relations.pizzeria_relazioni.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +28,9 @@ public class PizzaController {
     // dependency injection
     @Autowired
     private PizzaRepository pizzaRepository;
+
+    @Autowired
+    private OnSaleRepository saleRepository;
 
     @GetMapping
     public String index(Model model) {
@@ -97,7 +101,13 @@ public class PizzaController {
     // delete
     @PostMapping("delete/{id}")
     public String delete(@PathVariable int id) {
-        pizzaRepository.deleteById(id);
+        Pizza pizza = pizzaRepository.findById(id).get();
+
+        for (OnSale saleToDelete : pizza.getSales()) {
+            saleRepository.delete(saleToDelete);
+        }
+
+        pizzaRepository.delete(pizza);
         return "redirect:/pizzas";
     }
     
