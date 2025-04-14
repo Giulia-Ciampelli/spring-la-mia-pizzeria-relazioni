@@ -26,18 +26,18 @@ public class PizzaController {
 
     // dependency injection
     @Autowired
-    private PizzaRepository repository;
+    private PizzaRepository pizzaRepository;
 
     @GetMapping
     public String index(Model model) {
-        List<Pizza> pizzas = repository.findAll();
+        List<Pizza> pizzas = pizzaRepository.findAll();
         model.addAttribute("pizzas", pizzas);
         return "pizzas/index";
     }
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {
-        Pizza pizza = repository.findById(id).get();
+        Pizza pizza = pizzaRepository.findById(id).get();
         model.addAttribute("pizza", pizza);
         return "pizzas/show";
     }
@@ -45,7 +45,7 @@ public class PizzaController {
     //#region ricerche personalizzate
     @GetMapping("/search-by-name")
     public String searchByName(@RequestParam(name = "name") String name, Model model) {
-        List<Pizza> pizzas = repository.findByNameContainingIgnoreCase(name);
+        List<Pizza> pizzas = pizzaRepository.findByNameContainingIgnoreCase(name);
         model.addAttribute("pizzas", pizzas);
         return "pizzas/index";
     }
@@ -68,14 +68,14 @@ public class PizzaController {
         }
 
         // salvataggio con la repository
-        repository.save(formPizza);
+        pizzaRepository.save(formPizza);
         return "redirect:/pizzas";
     }
 
     // update
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable int id, Model model) {
-        model.addAttribute("pizza", repository.findById(id).get());
+        model.addAttribute("pizza", pizzaRepository.findById(id).get());
         return "pizzas/edit";
     }
 
@@ -88,14 +88,14 @@ public class PizzaController {
         }
 
         // salvataggio con la repository
-        repository.save(formPizza);
+        pizzaRepository.save(formPizza);
         return "redirect:/pizzas";
     }
 
     // delete
     @PostMapping("delete/{id}")
     public String delete(@PathVariable int id) {
-        repository.deleteById(id);
+        pizzaRepository.deleteById(id);
         return "redirect:/pizzas";
     }
     
@@ -103,7 +103,7 @@ public class PizzaController {
     @GetMapping("/{id}/sale")
     public String onSale(@PathVariable int id, Model model) {
         OnSale sale = new OnSale();
-        sale.setPizza(repository.findById(id).get());
+        sale.setPizza(pizzaRepository.findById(id).get());
         model.addAttribute("sale", sale);
         return "sales/create-edit";
     }

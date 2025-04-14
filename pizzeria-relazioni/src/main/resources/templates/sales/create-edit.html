@@ -39,7 +39,7 @@
                         <label for="startDate" class="form-label">
                             Start date:
                         </label>
-                        <input type="date" class="form-control" id="startDate" th:field="*{startDate}" th:errorClass="is-invalid">
+                        <input type="datetime-local" class="form-control" id="startDate" th:field="*{startDate}" th:errorClass="is-invalid">
                         
                         <!-- segnalazione errore -->
                         <div class="invalid-feedback" th:if="${#fields.hasErrors('startDate')}">
@@ -54,7 +54,7 @@
                         <label for="finishDate" class="form-label">
                             Finish date:
                         </label>
-                        <input type="date" class="form-control" id="finishDate" th:field="*{finishDate}" th:errorClass="is-invalid">
+                        <input type="datetime-local" class="form-control" id="finishDate" th:field="*{finishDate}" th:errorClass="is-invalid">
                         
                         <!-- segnalazione errore -->
                         <div class="invalid-feedback" th:if="${#fields.hasErrors('finishDate')}">
