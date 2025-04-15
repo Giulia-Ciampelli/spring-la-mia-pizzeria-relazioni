@@ -7,7 +7,10 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
@@ -43,6 +46,10 @@ public class Pizza {
     @OneToMany(mappedBy = "pizza", fetch = FetchType.EAGER)
     private List<OnSale> sales;
 
+    @ManyToMany
+    @JoinTable(name = "ingredient_pizza", joinColumns = @JoinColumn(name = "pizza_id"), inverseJoinColumns = @JoinColumn(name = "ingredient_id"))
+    private List<Ingredient> ingredients;
+
     //#region getter e setter
     public int getId() {
         return id;
@@ -68,6 +75,10 @@ public class Pizza {
         return sales;
     }
 
+    public List<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -90,6 +101,10 @@ public class Pizza {
 
     public void setSales(List<OnSale> sales) {
         this.sales = sales;
+    }
+
+    public void setIngredients(List<Ingredient> ingredients) {
+        this.ingredients = ingredients;
     }
 
     //#endregion getter e setter
