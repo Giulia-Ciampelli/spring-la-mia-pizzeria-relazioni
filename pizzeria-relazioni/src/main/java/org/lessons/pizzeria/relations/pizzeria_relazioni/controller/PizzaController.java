@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.lessons.pizzeria.relations.pizzeria_relazioni.model.OnSale;
 import org.lessons.pizzeria.relations.pizzeria_relazioni.model.Pizza;
+import org.lessons.pizzeria.relations.pizzeria_relazioni.repository.IngredientRepository;
 import org.lessons.pizzeria.relations.pizzeria_relazioni.repository.OnSaleRepository;
 import org.lessons.pizzeria.relations.pizzeria_relazioni.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,17 +21,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 @Controller
 @RequestMapping("/pizzas")
 public class PizzaController {
 
-    // dependency injection
     @Autowired
     private PizzaRepository pizzaRepository;
 
     @Autowired
     private OnSaleRepository saleRepository;
+
+    @Autowired
+    private IngredientRepository ingredientRepository;
 
     @GetMapping
     public String index(Model model) {
@@ -47,20 +49,21 @@ public class PizzaController {
         return "pizzas/show";
     }
 
-    //#region ricerche personalizzate
+    // #region ricerche personalizzate
     @GetMapping("/search-by-name")
     public String searchByName(@RequestParam(name = "name") String name, Model model) {
         List<Pizza> pizzas = pizzaRepository.findByNameContainingIgnoreCase(name);
         model.addAttribute("pizzas", pizzas);
         return "pizzas/index";
     }
-    
-    //#endregion ricerche personalizzate
+
+    // #endregion ricerche personalizzate
 
     // create
     @GetMapping("/create")
     public String create(Model model) {
         model.addAttribute("pizza", new Pizza());
+        model.addAttribute("ingredients", ingredientRepository.findAll());
         return "pizzas/create-edit";
     }
 
@@ -69,6 +72,7 @@ public class PizzaController {
 
         // controllo errori
         if (bindingResult.hasErrors()) {
+            model.addAttribute("ingredients", ingredientRepository.findAll());
             return "pizzas/create-edit";
         }
 
@@ -81,15 +85,18 @@ public class PizzaController {
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable int id, Model model) {
         model.addAttribute("pizza", pizzaRepository.findById(id).get());
+        model.addAttribute("ingredients", ingredientRepository.findAll());
         model.addAttribute("edit", true);
         return "pizzas/create-edit";
     }
 
     @PostMapping("/edit/{id}")
-    public String update(@PathVariable int id, @Valid @ModelAttribute("pizza") Pizza formPizza, BindingResult bindingResult, Model model) {
+    public String update(@PathVariable int id, @Valid @ModelAttribute("pizza") Pizza formPizza,
+            BindingResult bindingResult, Model model) {
 
         // controllo errori
         if (bindingResult.hasErrors()) {
+            model.addAttribute("ingredients", ingredientRepository.findAll());
             return "pizzas/create-edit";
         }
 
@@ -110,7 +117,7 @@ public class PizzaController {
         pizzaRepository.delete(pizza);
         return "redirect:/pizzas";
     }
-    
+
     // metodo delle offerte
     @GetMapping("/{id}/sale")
     public String onSale(@PathVariable int id, Model model) {
@@ -119,5 +126,5 @@ public class PizzaController {
         model.addAttribute("sale", sale);
         return "sales/create-edit";
     }
-    
+
 }

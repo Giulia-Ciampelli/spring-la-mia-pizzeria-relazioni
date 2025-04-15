@@ -31,6 +31,15 @@
                         </div>
                     </div>
 
+                    <!-- ingredienti -->
+                    <div class="mb-3">
+                        <div class="form-check single-ingredient" th:each="ingredient : ${ingredients}">
+                            <input type="checkbox" th:field="${pizza.ingredients}" th:value="${ingredient.id}" th:id="|ingredient-${ingredient.id}|">
+                            <label th:for="|ingredient-${ingredient.id}|" class="form-check-label" th:text="${ingredient.name}">
+                            </label>
+                        </div>
+                    </div>
+
                     <!-- descrizione -->
                     <div class="mb-3">
                         <label for="description" class="form-label">
